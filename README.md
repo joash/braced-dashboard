@@ -7,7 +7,8 @@ Install
 ===
 After checking out the base template from git, rename the folders and configs
 to match the name of your app (replace everything with djangotemplate with your
-apps name)
+apps name) Rename the djangotemplate/settings/example-local.py to local.py and
+update with your db and app configuration settings.
 
 Ensure the server you are running on has all the required pip packages.
 server_requirements.txt
