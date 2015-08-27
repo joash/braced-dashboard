@@ -51,6 +51,7 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
-
+#pycharm
+.idea/
 #local settings
 local.py
