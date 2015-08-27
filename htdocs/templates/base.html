@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,7 +8,7 @@
         <meta name="description" content="Mercy Corps Application">
         <meta name="author" content="Mercy Corps">
 
-        <title>{% block title %} Default Template {% endblock %}</title>
+        <title>{% block title %} Tola-Help {% endblock %}</title>
 
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" type="image/png">
 
@@ -20,7 +21,23 @@
         <!-- Custom Footer CSS -->
         <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" type="text/css">
 
-        {% block extra_js_in_header %}{% endblock %}
+        <!--- Django Tables2 css -->
+        <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
+
+        <!--- Hosted Leaflet CSS --->
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/leaflet.css">
+
+        {% block extra_js_in_header %}
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
+
+        <!-- App specific Javascript -->
+        <script type="text/javascript" src="{{ STATIC_URL }}js/app.js"></script>
+
+        <!-- Hosted Leaflet -->
+        <script src="{{ STATIC_URL }}js/leaflet.js"></script>
+        {% endblock %}
+
     </head>
     <body>
         <!--http://getbootstrap.com/examples/sticky-footer-navbar/-->
@@ -40,30 +57,29 @@
             </div>
             <div class="navbar-collapse collapse" role=navigation">
                 <ul class="nav navbar-nav">
-                    <li class="{{ home_tab }}"><a href="{% url 'home' %}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Views<b class="caret"></b></a>
+                <li class="{{ home_tab }}"><a href="{% url 'home' %}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                <li><a href='{% url 'helpdesk_dashboard' %}'><span class="glyphicon glyphicon-dashboard"></span> <span class="nav-text">Dashboard</span></a></li>
+                <li><a href='{% url 'helpdesk_list' %}'><span class="glyphicon glyphicon-tags"></span> <span class="nav-text">Tickets</span></a></li>
+                <li><a href='{% url 'helpdesk_submit' %}'><span class="glyphicon glyphicon-plus"></span> <span class="nav-text">New Ticket</span></a></li>
+                <li><a href='{% url 'helpdesk_report_index' %}'><span class="glyphicon glyphicon-stats"></span> <span class="nav-text">Stats</span></a></li>
+                <li><a href='{% url 'helpdesk_kb_index' %}'><span class="glyphicon glyphicon-tree-deciduous"></span> <span class="nav-text">Knowledgebase</span></a></li>                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a class="" href="#"><span class="glyphicon glyphicon-list"></span> Example</a></li>
-                            <li><a class="" href="#"><span class="glyphicon glyphicon-dashboard"></span> Example 2</a></li>
-                            <li><a class="" href="#"><span class="glyphicon glyphicon-import"></span> Example 3</a></li>
+                            <li><a href="/documentation">Documentation</a></li>
+                            <li><a href="/faq">FAQ</a></li>
+                            <li><a href="/contact">Contact</a></li>
                         </ul>
                     </li>
 
                 </ul>
                 {% if user.is_authenticated  %}
+                <span>{{ request.session.country }}</span>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-user"></span> {{ user.userprofile.name }}
-                            <b class="caret"></b>
-                        </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{ user.userprofile.name }}<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li class="dropdown-header">Dropbox & Google Drive Integration</li>
-                            <li><a class="{{ googledrive_tab }}" href="{% url 'picker' %}"><span class="glyphicon glyphicon-cloud"></span> Select Google Drive Files</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-cloud"></span> Select Dropbox Files</a></li>
-                            <li><a href="{% url 'ggldrv_auth_success' %}"><span class="glyphicon glyphicon-list"></span> Shared PRMasterlists</a></li>
+                            <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-lock"></span> Logout</a></li>
+                            <li><a href="{% url 'profile' %}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
                         </ul>
                     </li><!-- .dropdown collapse -->
                 </ul>
@@ -87,19 +103,10 @@
         </div><!-- .navbar collapse -->
 
 
-
         <div class="container">
-
-            <!-- breadcrumb section -->
-            {% if home_tab != "active" %}
-            <ol class="breadcrumb">
-                {% block breadcrumbs %}<li><a href="{% url 'home' %}"> Home </a></li>{% endblock %}
-            </ol>
-            {% else %}
-              <br/>
-              <br/>
-            {% endif %}
-
+            <br/>
+            <br/>
+            <div>{% block bread_crumb %}{% endblock %}</div>
             <div id = "alerts">
                 <!-- Any messages for users -->
                 {% block messages %}
@@ -108,18 +115,21 @@
                                     {% if 'safe' in message.tags %}
                                         <div class="alert alert-{{message.tags}}">{{ message|safe }}</div>
                                     {% else %}
-                                        <div class="alert alert-{{message.tags}}">{{ message }}</div>
+                                        <div class="alert alert-{{message.tags}}">{{ message|safe }}</div>
                                     {% endif %}
                             {% endfor %}
+                    <br/>
                     {% endif %}
                 {% endblock messages %}
             </div>
-            <br/>
             <!-- Page title  -->
             <h2>{% block page_title %}{% endblock %}</h2>
 
             <!-- Main body content -->
             <p>{% block content %}{% endblock %}</p>
+
+            <!-- Main body content -->
+            <p>{% block helpdesk %}{% endblock %}</p>
 
         </div><!-- .container collapse -->
 
@@ -127,7 +137,7 @@
         <div id="footer"><!-- Sticky Footer -->
             <div class="container">
                 <span style="float: left;" class="text-muted">
-                    Copyright © Mercy Corps {% now "Y" %}
+                    <a href="https://github.com/mercycorps/tola-activity/blob/master/LICENSE">GNU GENERAL PUBLIC LICENSE Version 2</a>
                 </span>
                 <span style="float:right;" class="text-muted">
                   <a href="{% url 'documentation' %}" class="text-muted">Documentation</a> |
@@ -138,9 +148,6 @@
 
         </div><!-- .footer collapse -->
 
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
-
         <!-- jQuery UI (necessary for datepicker as well as dataTables library -->
         <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.10.4.min.js"></script>
 
@@ -150,9 +157,7 @@
         <!-- Bootstrap compiled javascript plugins -->
         <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
 
-        <!-- App specific Javascript -->
-        <script type="text/javascript" src="{{ STATIC_URL }}js/app.js"></script>
-
         {% block extra_js_in_body %}{% endblock %}
     </body>
 </html>
+
