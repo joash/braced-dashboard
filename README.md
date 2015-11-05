@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Base Template Sample App
 ===
 This application is inteaded to be a base template for creating a new django
@@ -44,3 +45,7 @@ pip freeze > app_requirements.txt
 
 Updating or installing on a new server
 pip install -r requirements.txt
+=======
+# braced-dashboard
+Custom tola dashboard for DFID - BRACED  
+>>>>>>> e73e75583786c6b84acd9b7c0db48d04090d860e
