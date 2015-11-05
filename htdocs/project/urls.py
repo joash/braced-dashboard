@@ -10,7 +10,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'djangotemplate.views.home', name='home'),
+    # url(r'^$', 'braceddashboard.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
     #base template include
