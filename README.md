@@ -1,51 +1,21 @@
-<<<<<<< HEAD
-Base Template Sample App
-===
-This application is inteaded to be a base template for creating a new django
-application at Mercy Corps
+Custom tola dashboard for DFID - BRACED.
 
-Install
-===
-After checking out the base template from git, rename the folders and configs
-to match the name of your app (replace everything with djangotemplate with your
-apps name) Rename the djangotemplate/settings/example-local.py to local.py and
-update with your db and app configuration settings.
+Uses the base template for django apps at Mercy Corps.
 
-Ensure the server you are running on has all the required pip packages.
-server_requirements.txt
+Basic dashboard functionalities for now:
 
-Virtual Environemnt
-===
-Create a virtual environment on each server your app will run on and install
-app specific libraries in the venv
+1. Filter BRACED Projects by Status:
+    - Approved
+    - Waiting
+    - Rejected
+    - Archived
 
-Instructions
-====
-Create Virtualenv
-virtualenv venv  (USES SERVER INSTALLED PACKAGES)
+Display a chart (Pie Chart) showing Project Status
 
-virtualenv —no-site-packages venv
-*use no site packages to prevent virtualenv from seeing your global packages
+2. Show a program map, with Site pins
 
-. venv/bin/activate
-*allows us to just use pip from command line by adding to the path rather then full path
+3. Key Program Indicators (Targets Vs Actuals)
+
+4. Project Activity Budgets (Estimated Vs Actuals)
 
 
-Activate Virtualenv
-source venv/bin/activate
-workon venv
-OR (if using wrapper)
-mkvirtualenv venv1
-workon venv
-
-Create App Specifc Library List
-===
-pip freeze > app_requirements.txt
-* creates a app_requirements.txt file for future installs
-
-Updating or installing on a new server
-pip install -r requirements.txt
-=======
-# braced-dashboard
-Custom tola dashboard for DFID - BRACED  
->>>>>>> e73e75583786c6b84acd9b7c0db48d04090d860e
